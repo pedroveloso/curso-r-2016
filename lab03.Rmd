@@ -1,0 +1,49 @@
+---
+title: "lab03"
+author: "PedroVeloso"
+date: "22 de janeiro de 2016"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+require(dplyr)
+require(tidyr)
+require(nycflights13)
+
+flights %>% tbl_df
+
+#FILTER
+voos_012013 <- flights %>% tbl_df %>%  filter(year==2013,month==1)
+voos_0102_2013 <- flights %>% filter(year==2013,month==1 | month==2) %>% tbl_df
+voos_1000milhas <- flights %>% filter(distance>1000) %>% tbl_df
+
+#SELECT
+voos_MonthDelay <- flights %>% select(month,dep_delay) %>% tbl_df
+voos_MesAtraso <- flights %>% select(mes=month,atraso=dep_delay) %>% tbl_df
+voos_subtrai <- flights %>% select(-c(tailnum,origin,dest)) %>% tbl_df
+
+#MUTATE
+ganhoVeloc <- flights %>% mutate(ganho_de_tempo=dep_delay - arr_delay,velocidade=distance/air_time*60) %>% tbl_df
+newHourMin <- flights %>% mutate(hour2=hour+air_time%/%60,min2=minute+air_time%%60) %>% tbl_df
+
+#SUMMARISE
+flights %>% summarise(meanDist=mean(distance))
+flights %>% group_by(month) %>% summarise(meanDist=mean(distance))
+flights %>% group_by(month) %>% summarise(meanDist=mean(distance),medianDist=median(distance),firstQuartile=quantile(distance,.25),thirdQuartile=quantile(distance,.75))
+
+#ARRANGE
+flights %>% arrange(dep_delay) %>% tbl_df
+flights %>% arrange(desc(dep_delay)) %>% tbl_df
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
