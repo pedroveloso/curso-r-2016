@@ -38,6 +38,11 @@ flights %>% group_by(month) %>% summarise(meanDist=mean(distance),medianDist=med
 #ARRANGE
 flights %>% arrange(dep_delay) %>% tbl_df
 flights %>% arrange(desc(dep_delay)) %>% tbl_df
+
+#SPREAD
+flights %>% 
+  group_by(dia,dep_delay) %>%
+  
 ```
 
 You can also embed plots, for example:
