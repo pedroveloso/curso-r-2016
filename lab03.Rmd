@@ -40,9 +40,29 @@ flights %>% arrange(dep_delay) %>% tbl_df
 flights %>% arrange(desc(dep_delay)) %>% tbl_df
 
 #SPREAD
-flights %>% 
-  group_by(dia,dep_delay) %>%
-  
+a <- flights %>% 
+              group_by(day,month) %>%
+              summarise(medAtraso=mean(dep_delay,na.rm=T)) %>%
+              ungroup() %>% 
+              spread(month,medAtraso)
+
+head(a)
+
+
+b <- flights %>% 
+              group_by(hour,day) %>% 
+              summarise(total=n()) %>% 
+              ungroup() %>% 
+              spread(day,total)
+
+head(b)
+
+#GATHER
+
+a %>% gather(day,medAtraso)
+
+b %>% 
+  gather(hour,total)
 ```
 
 You can also embed plots, for example:
