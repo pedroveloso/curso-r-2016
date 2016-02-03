@@ -16,15 +16,39 @@ require(ggplot2)
 You can also embed plots, for example:
 
 ```{r, echo=FALSE}
+#item 1
+# Aesthetics obrigatorios de geom_point(): x,y conforme help()
+
 #item 2
 ggplot(diamonds,aes(carat,price))+geom_point()+xlab("carat")+ylab("price")
 
 #item 3
 ggplot(diamonds,aes(carat,price))+geom_point()+xlab("carat")+ylab("price")+facet_grid(clarity ~.)
 
-#item 5
-ggplot(diamonds,aes(price))+geom_histogram(color=10)
+#item 4
+# Aesthetics obrigatorios de geom_histogram(): x conforme help()
 
+#item 5
+ggplot(diamonds,aes(x=price))+geom_histogram(fill="light blue",colour="white")
+
+#item 6
+ggplot(diamonds,aes(x=price))+geom_density(colour="blue")
+
+#item 7
+# Aesthetics obrigatorios de geom_boxplot(): lower,middle,upper,x,ymax,ymin
+
+#item 8
+ggplot(diamonds,aes(x=as.factor(cut),y=price,lower=quantile(price,.25),
+                    middle=median(price),upper=quantile(price,.75),
+                    ymax=max(price),ymin=min(price),
+                    fill=as.factor(cut)))+geom_boxplot()+xlab("cut")+labs(fill="cut")
+
+#item 9
+ggplot(diamonds,aes(x=as.factor(cut),y=price,lower=quantile(price,.25),
+                    middle=median(price),upper=quantile(price,.75),
+                    ymax=max(price),ymin=min(price)),
+                    +geom_boxplot()+xlab("cut")+guides(fill=FALSE),
+                    +scale_color_manual(values=c("black","dark blue","blue","light blue","white"))
 
 ```
 
