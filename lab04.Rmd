@@ -44,12 +44,20 @@ ggplot(diamonds,aes(x=as.factor(cut),y=price,lower=quantile(price,.25),
                     fill=as.factor(cut)))+geom_boxplot()+xlab("cut")+labs(fill="cut")
 
 #item 9
-ggplot(diamonds,aes(x=as.factor(cut),y=price,lower=quantile(price,.25),
+graf <- ggplot(diamonds,aes(x=as.factor(cut),y=price,lower=quantile(price,.25),
                     middle=median(price),upper=quantile(price,.75),
-                    ymax=max(price),ymin=min(price)),
-                    +geom_boxplot()+xlab("cut")+guides(fill=FALSE),
-                    +scale_color_manual(values=c("black","dark blue","blue","light blue","white"))
+                    ymax=max(price),ymin=min(price)))
 
+                    graf+geom_boxplot(aes(colour=factor(cut)))+xlab("cut")+guides(fill=FALSE)+scale_color_manual(values=c("Fair"="black","Good"="dark green","Very Good"="blue","Premium"="light blue","Ideal"="gold"))
+                    
+       
+#item 10
+#Aesthetics obrigatorios de geom_bar: x
+                    
+#item 11
+ggplot(diamonds,aes(color))+geom_bar(aes(colour=color,fill=color))
+                    
+                    
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
