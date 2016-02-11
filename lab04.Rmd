@@ -68,7 +68,9 @@ ggplot(economics,aes(x=unemploy,y=uempmed))+geom_point()+ylab("Desemprego - Temp
 ggplot(economics,aes(x=unemploy,y=uempmed))+geom_point(aes(colour=factor(year(date))))+ylab("Desemprego - Tempo Medio (semanas)")+xlab("Num. Desempregados (por 1000)")+theme_classic()+theme(legend.position="none")
 
 #item 14
+ggplot(economics,aes(x=date,y=unemploy))+geom_line()+theme_classic()
 
+#item 15
                     
 ```
 
