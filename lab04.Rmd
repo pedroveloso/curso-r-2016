@@ -71,6 +71,24 @@ ggplot(economics,aes(x=unemploy,y=uempmed))+geom_point(aes(colour=factor(year(da
 ggplot(economics,aes(x=date,y=unemploy))+geom_line()+theme_classic()
 
 #item 15
+unemploYear <- economics %>% mutate(year=year(date)) %>% group_by(year) %>% summarise(mean(unemploy))
+colnames(unemploYear) <- c("year","meanUnemp")
+ggplot(unemploYear,aes(x=year,y=meanUnemp))+geom_line()+ylab("Avg. Unemployment")
+
+#item 16
+unemploYear2 <- economics %>% mutate(year=year(date)) %>% group_by(year) %>% summarise(median(unemploy),p01=quantile(unemploy,.01),p99=quantile(unemploy,.99))
+
+colnames(unemploYear2) <- c("year","medianUnemp","p01","p99")
+
+ggplot(unemploYear2,aes(x=year,y=medianUnemp))+
+      geom_ribbon(aes(ymin=p01,ymax=p99),fill="grey70")+geom_line(aes(y=medianUnemp))+
+      ylab("Unemployment")
+
+#item 17
+long<-economics %>% mutate(unempRate=unemploy/pop) %>% gather(key=date,value=valor,pce,psavert,unempRate)
+
+ggplot(long,aes(x=date,y=valor))+geom_line()
+
                     
 ```
 
