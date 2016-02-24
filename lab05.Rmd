@@ -1,0 +1,73 @@
+---
+title: "lab05"
+author: "PedroVeloso"
+date: "29 de janeiro de 2016"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+require(ggplot2)
+library(magrittr)
+library(tidyr)
+library(dplyr)
+library(jpeg)
+library(tree)
+
+#Carrega a imagem
+img <- readJPEG(paste0(getwd(),"/purple_wave.jpg"))
+
+#dimensões
+img_dim <- dim(img)
+
+#RGB para data.frame
+img_df <- data.frame(
+          x = rep(1:img_dim[2],each=img_dim[1]),
+          y = rep(img_dim[1]:1,img_dim[2]),
+          r = as.vector(img[,,1]),
+          g = as.vector(img[,,2]),
+          b=as.vector(img[,,3])
+) %>% 
+  mutate(cor=rgb(r,g,b),id=1:n())
+
+
+#Divindo a amostra de treino e amostra de teste
+set.seed(123)
+
+#Parte 1
+img_df_parte1 <- img_df %>% 
+    sample_frac(3/5) %>% 
+    mutate(b_backup=b,
+           b=0,
+           cor=rgb(r,g,b))
+
+#Parte 2
+img_df_parte2 <- img_df %>% filter(!id%in%img_df_parte1$id)
+
+
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+
+#Parte sem o azul
+ggplot(data=img_df_parte1,aes(x=x,y=y))+
+  geom_point(colour=img_df_parte1$cor)+
+  labs(x="x",y="y",title="Imagem sem B(azul)")+
+  coord_fixed(ratio=1)+
+  theme_bw()
+
+
+#Apenas o azul
+ggplot(data=img_df_parte2,aes(x=x,y=y)) +
+  geom_point(colour=img_df_parte2$cor) +
+  labs(x="x",y="y",title="Imagem sem B (azul") +
+  coord_fixed(ratio=1) +
+  theme_bw()
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
